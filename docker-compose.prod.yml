@@ -1,0 +1,135 @@
+services:
+  # Xiaozhi ESP32 Server - Main AI Service
+  xiaozhi-server:
+    build:
+      context: .
+      dockerfile: Dockerfile-server
+    container_name: xiaozhi-esp32-server
+    restart: unless-stopped
+    depends_on:
+      xiaozhi-db:
+        condition: service_healthy
+      xiaozhi-redis:
+        condition: service_healthy
+    networks:
+      - xiaozhi-network
+    ports:
+      - "8000:8000"  # WebSocket service
+      - "8003:8003"  # HTTP service for OTA and vision analysis
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/opt/xiaozhi-esp32-server/data
+      - ./models/SenseVoiceSmall/model.pt:/opt/xiaozhi-esp32-server/models/SenseVoiceSmall/model.pt
+      - ./logs:/opt/xiaozhi-esp32-server/logs
+    security_opt:
+      - seccomp:unconfined
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8003/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Web Management Console (Java Backend + Vue Frontend)
+  xiaozhi-web:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    container_name: xiaozhi-esp32-web
+    restart: unless-stopped
+    depends_on:
+      xiaozhi-db:
+        condition: service_healthy
+      xiaozhi-redis:
+        condition: service_healthy
+    networks:
+      - xiaozhi-network
+    ports:
+      - "8002:8002"  # Web management console
+    environment:
+      - TZ=Asia/Shanghai
+      - SPRING_DATASOURCE_DRUID_URL=jdbc:mysql://xiaozhi-db:3306/xiaozhi_esp32_server?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true&connectTimeout=30000&socketTimeout=30000&autoReconnect=true&failOverReadOnly=false&maxReconnects=10
+      - SPRING_DATASOURCE_DRUID_USERNAME=root
+      - SPRING_DATASOURCE_DRUID_PASSWORD=${DB_PASSWORD:-xiaozhi2024}
+      - SPRING_DATA_REDIS_HOST=xiaozhi-redis
+      - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - SPRING_DATA_REDIS_PORT=6379
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+    volumes:
+      - ./uploadfile:/uploadfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/xiaozhi/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+
+  # MySQL Database
+  xiaozhi-db:
+    image: mysql:8.0
+    container_name: xiaozhi-esp32-db
+    restart: unless-stopped
+    networks:
+      - xiaozhi-network
+    ports:
+      - "3306:3306"  # Exposed for external access if needed
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-xiaozhi2024}
+      - MYSQL_DATABASE=xiaozhi_esp32_server
+      - MYSQL_CHARACTER_SET_SERVER=utf8mb4
+      - MYSQL_COLLATION_SERVER=utf8mb4_unicode_ci
+      - MYSQL_INITDB_ARGS=--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --max_connections=500
+      - --max_allowed_packet=256M
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD:-xiaozhi2024}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  # Redis Cache
+  xiaozhi-redis:
+    image: redis:7-alpine
+    container_name: xiaozhi-esp32-redis
+    restart: unless-stopped
+    networks:
+      - xiaozhi-network
+    ports:
+      - "6379:6379"  # Exposed for external access if needed
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - redis-data:/data
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+networks:
+  xiaozhi-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+  redis-data:
+    driver: local

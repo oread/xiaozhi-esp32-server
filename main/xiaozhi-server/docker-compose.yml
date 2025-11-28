@@ -1,4 +1,4 @@
-# Docker安装Server
+﻿# Docker安装Server
 
 version: '3'
 services:
@@ -18,5 +18,5 @@ services:
     volumes:
       # 配置文件目录
       - ./data:/opt/xiaozhi-esp32-server/data
-      # 模型文件挂接，很重要
-      - ./models/SenseVoiceSmall/model.pt:/opt/xiaozhi-esp32-server/models/SenseVoiceSmall/model.pt
+      # 模型目录挂载
+      - ./models/SenseVoiceSmall:/opt/xiaozhi-esp32-server/models/SenseVoiceSmall

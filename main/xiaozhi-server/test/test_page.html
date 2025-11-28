@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小智服务器测试页面</title>
+    <title>Xiaozhi Server Test Page</title>
     <link rel="stylesheet" href="test_page.css">
     <style>
         #fileProtocolWarning {
@@ -57,7 +57,7 @@
             background-color: #45a049;
         }
 
-        /* MCP 工具管理样式 */
+        /* MCP Tool Management Styles */
         .mcp-tools-container {
             display: grid;
             gap: 12px;
@@ -215,23 +215,23 @@
         }
     </style>
     <script>
-        // 检测是否使用file://协议打开
+        // Detect if opened using file:// protocol
         if (window.location.protocol === 'file:') {
             document.addEventListener('DOMContentLoaded', function () {
-                // 创建警告框
+                // Create warning box
                 const warningDiv = document.createElement('div');
                 warningDiv.id = 'fileProtocolWarning';
                 warningDiv.innerHTML = `
-                    <h2>⚠️ 警告：请使用HTTP服务器打开此页面</h2>
-                    <p>您当前使用的是本地文件方式打开页面（file://协议），这可能导致页面功能异常。</p>
-                    <p>您可以使用nginx映射启动测试页面，也可以请按照以下步骤使用python启动测试http服务：</p>
+                    <h2>⚠️ Warning: Please open this page using an HTTP server</h2>
+                    <p>You are currently opening the page as a local file (file:// protocol), which may cause page functionality issues.</p>
+                    <p>You can use nginx mapping to start the test page, or follow these steps to start an HTTP test service using python:</p>
                     <ol>
-                        <li>打开命令行终端</li>
-                        <li>命令行进入到 xiaozhi-server/test 目录</li>
-                        <li>执行以下命令启动HTTP服务器：</li>
+                        <li>Open command line terminal</li>
+                        <li>Navigate to xiaozhi-server/test directory via command line</li>
+                        <li>Execute the following command to start HTTP server:</li>
                     </ol>
                     <pre>python -m http.server 8006</pre>
-                    <p>然后在浏览器中访问：<strong>http://localhost:8006/test_page.html</strong></p>
+                    <p>Then visit in browser: <strong>http://localhost:8006/test_page.html</strong></p>
                 `;
                 document.body.appendChild(warningDiv);
             });
@@ -241,39 +241,39 @@
 
 <body>
     <div class="container">
-        <h1>小智服务器测试页面</h1>
+        <h1>Xiaozhi Server Test Page</h1>
 
         <div id="scriptStatus" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-            正在加载Opus库...
+            Loading Opus library...
         </div>
 
-        <!-- 添加配置面板 -->
+        <!-- Add configuration panel -->
         <div class="section">
             <h2>
-                设备配置
+                Device Configuration
                 <span class="device-info">
                     <span>MAC: <strong id="displayMac"></strong></span>
-                    <span>客户端: <strong id="displayClient">web_test_client</strong></span>
+                    <span>Client: <strong id="displayClient">web_test_client</strong></span>
                 </span>
-                <button class="toggle-button" id="toggleConfig">编辑</button>
+                <button class="toggle-button" id="toggleConfig">Edit</button>
             </h2>
             <div class="config-panel" id="configPanel">
                 <div class="control-panel">
                     <div class="config-item">
-                        <label for="deviceMac">设备MAC:</label>
-                        <input type="text" id="deviceMac" placeholder="设备MAC地址">
+                        <label for="deviceMac">Device MAC:</label>
+                        <input type="text" id="deviceMac" placeholder="Device MAC Address">
                     </div>
                     <div class="config-item">
-                        <label for="deviceName">设备名称:</label>
-                        <input type="text" id="deviceName" value="Web测试设备" placeholder="设备名称">
+                        <label for="deviceName">Device Name:</label>
+                        <input type="text" id="deviceName" value="Web Test Device" placeholder="Device Name">
                     </div>
                     <div class="config-item">
-                        <label for="clientId">客户端ID:</label>
-                        <input type="text" id="clientId" value="web_test_client" placeholder="客户端ID">
+                        <label for="clientId">Client ID:</label>
+                        <input type="text" id="clientId" value="web_test_client" placeholder="Client ID">
                     </div>
                     <div class="config-item">
-                        <label for="token">认证Token:</label>
-                        <input type="text" id="token" value="your-token1" placeholder="认证Token">
+                        <label for="token">Auth Token:</label>
+                        <input type="text" id="token" value="your-token1" placeholder="Auth Token">
                     </div>
                 </div>
             </div>
@@ -281,77 +281,77 @@
 
         <div class="section">
             <h2>
-                连接信息
+                Connection Info
                 <span class="connection-status">
-                    <span>OTA: <span id="otaStatus" class="status">ota未连接</span></span>
-                    <span>WS: <span id="connectionStatus" class="status">ws未连接</span></span>
+                    <span>OTA: <span id="otaStatus" class="status">ota not connected</span></span>
+                    <span>WS: <span id="connectionStatus" class="status">ws not connected</span></span>
                 </span>
             </h2>
             <div class="connection-controls">
                 <input type="text" id="otaUrl" value="http://127.0.0.1:8002/xiaozhi/ota/"
-                    placeholder="OTA服务器地址，如：http://127.0.0.1:8002/xiaozhi/ota/" />
-                <input type="text" id="serverUrl" value="" readonly disabled placeholder="点击连接按钮后，自动从OTA接口获取" />
-                <button id="connectButton">连接</button>
+                    placeholder="OTA Server Address, e.g.: http://127.0.0.1:8002/xiaozhi/ota/" />
+                <input type="text" id="serverUrl" value="" readonly disabled placeholder="Auto-fetched from OTA interface after clicking connect button" />
+                <button id="connectButton">Connect</button>
             </div>
         </div>
 
         <div class="section">
             <div class="tabs">
-                <button class="tab active" data-tab="text">文本消息</button>
-                <button class="tab" data-tab="voice">语音消息</button>
+                <button class="tab active" data-tab="text">Text Message</button>
+                <button class="tab" data-tab="voice">Voice Message</button>
             </div>
 
             <div class="tab-content active" id="textTab">
                 <div class="message-input">
-                    <input type="text" id="messageInput" placeholder="输入消息..." disabled>
-                    <button id="sendTextButton" disabled>发送</button>
+                    <input type="text" id="messageInput" placeholder="Enter message..." disabled>
+                    <button id="sendTextButton" disabled>Send</button>
                 </div>
             </div>
 
             <div class="tab-content" id="voiceTab">
                 <div class="audio-controls">
-                    <button id="recordButton" class="record-button" disabled>开始录音</button>
+                    <button id="recordButton" class="record-button" disabled>Start Recording</button>
                 </div>
                 <canvas id="audioVisualizer" class="audio-visualizer"></canvas>
             </div>
         </div>
 
         <div class="section">
-            <h2>会话记录</h2>
+            <h2>Session History</h2>
             <div class="flex-container">
                 <div id="conversation" class="conversation"></div>
                 <div id="logContainer">
-                    <div class="log-entry log-info">准备就绪，请连接服务器开始测试...</div>
+                    <div class="log-entry log-info">Ready, please connect to server to start testing...</div>
                 </div>
             </div>
         </div>
 
-        <!-- MCP 工具管理区域 -->
+        <!-- MCP Tool Management Area -->
         <div class="section">
             <h2>
-                MCP 工具管理
+                MCP Tool Management
                 <span class="connection-status">
-                    <span id="mcpToolsCount">0 个工具</span>
+                    <span id="mcpToolsCount">0 tools</span>
                 </span>
-                <button class="toggle-button" id="toggleMcpTools">展开</button>
+                <button class="toggle-button" id="toggleMcpTools">Expand</button>
             </h2>
             <div class="config-panel" id="mcpToolsPanel">
                 <div id="mcpToolsContainer" class="mcp-tools-container">
-                    <!-- 工具列表将动态插入这里 -->
+                    <!-- Tool list will be dynamically inserted here -->
                 </div>
                 <div style="text-align: center; padding: 15px 0;">
                     <button class="btn" id="addMcpToolBtn" style="background-color: #4caf50;">
-                        ➕ 添加新工具
+                        ➕ Add New Tool
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- MCP 工具编辑模态框 -->
+        <!-- MCP Tool Edit Modal -->
         <div id="mcpToolModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; overflow-y: auto;">
             <div style="background-color: white; border-radius: 10px; padding: 25px; width: 90%; max-width: 700px; margin: 50px auto; max-height: 85vh; overflow-y: auto;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #e0e0e0;">
-                    <h2 id="mcpModalTitle" style="font-size: 20px; font-weight: bold; color: #333; margin: 0;">添加工具</h2>
+                    <h2 id="mcpModalTitle" style="font-size: 20px; font-weight: bold; color: #333; margin: 0;">Add Tool</h2>
                     <button id="closeMcpModalBtn" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666; padding: 0; width: 30px; height: 30px;">&times;</button>
                 </div>
 
@@ -359,45 +359,45 @@
 
                 <form id="mcpToolForm">
                     <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333; font-size: 14px;">工具名称 *</label>
-                        <input type="text" id="mcpToolName" placeholder="例如: self.get_device_status" required
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333; font-size: 14px;">Tool Name *</label>
+                        <input type="text" id="mcpToolName" placeholder="e.g.: self.get_device_status" required
                             style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
                     </div>
 
                     <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333; font-size: 14px;">工具描述 *</label>
-                        <textarea id="mcpToolDescription" placeholder="详细描述工具的功能和使用场景..." required
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333; font-size: 14px;">Tool Description *</label>
+                        <textarea id="mcpToolDescription" placeholder="Describe the tool's functionality and usage scenarios in detail..." required
                             style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; min-height: 80px; resize: vertical;"></textarea>
                     </div>
 
                     <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333; font-size: 14px;">输入参数</label>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333; font-size: 14px;">Input Parameters</label>
                         <div style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; padding: 15px;">
                             <div id="mcpPropertiesContainer">
-                                <div style="text-align: center; padding: 20px; color: #999; font-size: 14px;">暂无参数，点击下方按钮添加参数</div>
+                                <div style="text-align: center; padding: 20px; color: #999; font-size: 14px;">No parameters yet, click the button below to add parameters</div>
                             </div>
                             <button type="button" id="addMcpPropertyBtn" 
                                 style="width: 100%; margin-top: 10px; padding: 8px 15px; border: none; border-radius: 5px; background-color: #2196f3; color: white; cursor: pointer; font-size: 14px;">
-                                ➕ 添加参数
+                                ➕ Add Parameter
                             </button>
                         </div>
                     </div>
 
                     <div style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333; font-size: 14px;">
-                            模拟返回结果 (JSON 格式，可选)
-                            <span style="font-size: 12px; color: #999; font-weight: normal;">- 留空则返回默认成功消息</span>
+                            Mock Response (JSON format, optional)
+                            <span style="font-size: 12px; color: #999; font-weight: normal;">- Leave empty to return default success message</span>
                         </label>
-                        <textarea id="mcpMockResponse" placeholder='{"success": true, "data": "执行成功"}'
+                        <textarea id="mcpMockResponse" placeholder='{"success": true, "data": "Execution successful"}'
                             style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; font-family: 'Courier New', monospace; min-height: 100px; resize: vertical;"></textarea>
                         <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                            💡 提示：如果设置了模拟返回结果，工具调用时将返回这个 JSON 对象
+                            💡 Tip: If a mock response is set, the tool will return this JSON object when called
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px;">
-                        <button type="button" id="cancelMcpBtn" style="padding: 8px 15px; border: none; border-radius: 5px; background-color: #9e9e9e; color: white; cursor: pointer; font-size: 14px;">取消</button>
-                        <button type="submit" style="padding: 8px 15px; border: none; border-radius: 5px; background-color: #4caf50; color: white; cursor: pointer; font-size: 14px;">保存</button>
+                        <button type="button" id="cancelMcpBtn" style="padding: 8px 15px; border: none; border-radius: 5px; background-color: #9e9e9e; color: white; cursor: pointer; font-size: 14px;">Cancel</button>
+                        <button type="submit" style="padding: 8px 15px; border: none; border-radius: 5px; background-color: #4caf50; color: white; cursor: pointer; font-size: 14px;">Save</button>
                     </div>
                 </form>
             </div>
@@ -805,7 +805,7 @@
                     const blob = new Blob(audioChunks, { type: audioChunks[0].type });
                     log(`已创建音频Blob，MIME类型: ${audioChunks[0].type}，大小: ${(blob.size / 1024).toFixed(2)} KB`, 'info');
 
-                    // 保存原始块，以防清空后需要调试
+                    // Save original block in case debugging needed after clearing
                     const chunks = [...audioChunks];
                     audioChunks = [];
 
@@ -999,54 +999,54 @@
 
                 websocket.onmessage = function (event) {
                     try {
-                        // 检查是否为文本消息
+                        // Check if it's a text message
                         if (typeof event.data === 'string') {
                             const message = JSON.parse(event.data);
 
                             if (message.type === 'hello') {
-                                log(`服务器回应：${JSON.stringify(message, null, 2)}`, 'success');
+                                log(`Server response: ${JSON.stringify(message, null, 2)}`, 'success');
                             } else if (message.type === 'tts') {
-                                // TTS状态消息
+                                // TTS status message
                                 if (message.state === 'start') {
-                                    log('服务器开始发送语音', 'info');
+                                    log('Server started sending voice', 'info');
                                 } else if (message.state === 'sentence_start') {
-                                    log(`服务器发送语音段: ${message.text}`, 'info');
-                                    // 添加文本到会话记录
+                                    log(`Server sending voice segment: ${message.text}`, 'info');
+                                    // Add text to conversation history
                                     if (message.text) {
                                         addMessage(message.text);
                                     }
                                 } else if (message.state === 'sentence_end') {
-                                    log(`语音段结束: ${message.text}`, 'info');
+                                    log(`Voice segment ended: ${message.text}`, 'info');
                                 } else if (message.state === 'stop') {
-                                    log('服务器语音传输结束', 'info');
-                                    // 结束后更新UI状态
+                                    log('Server voice transmission ended', 'info');
+                                    // Update UI state after completion
                                     if (recordButton.disabled) {
                                         recordButton.disabled = false;
-                                        recordButton.textContent = '开始录音';
+                                        recordButton.textContent = 'Start Recording';
                                         recordButton.classList.remove('recording');
                                     }
                                 }
                             } else if (message.type === 'audio') {
-                                // 音频控制消息
-                                log(`收到音频控制消息: ${JSON.stringify(message)}`, 'info');
+                                // Audio control message
+                                log(`Received audio control message: ${JSON.stringify(message)}`, 'info');
                             } else if (message.type === 'stt') {
-                                // 语音识别结果
-                                log(`识别结果: ${message.text}`, 'info');
-                                // 添加识别结果到会话记录
-                                addMessage(`[语音识别] ${message.text}`, true);
+                                // Speech recognition result
+                                log(`Recognition result: ${message.text}`, 'info');
+                                // Add recognition result to conversation history
+                                addMessage(`[Speech Recognition] ${message.text}`, true);
                             } else if (message.type === 'llm') {
-                                // 大模型回复
-                                log(`大模型回复: ${message.text}`, 'info');
-                                // 添加大模型回复到会话记录
+                                // LLM response
+                                log(`LLM response: ${message.text}`, 'info');
+                                // Add LLM response to conversation history
                                 if (message.text && message.text !== '😊') {
                                     addMessage(message.text);
                                 }
                             } else if (message.type === 'mcp') {
                                 const payload = message.payload || {};
-                                log(`服务器下发: ${JSON.stringify(message)}`, 'info');
+                                log(`Server sent: ${JSON.stringify(message)}`, 'info');
                                 
                                 if (payload.method === 'tools/list') {
-                                    // 返回工具列表
+                                    // Return tool list
                                     const tools = getMcpTools();
                                     
                                     const replyMessage = JSON.stringify({
@@ -1060,18 +1060,18 @@
                                             }
                                         }
                                     });
-                                    log(`客户端上报: ${replyMessage}`, 'info');
+                                    log(`Client report: ${replyMessage}`, 'info');
                                     websocket.send(replyMessage);
-                                    log(`回复MCP工具列表: ${tools.length} 个工具`, 'info');
+                                    log(`Reply MCP tool list: ${tools.length} tools`, 'info');
                                     
                                 } else if (payload.method === 'tools/call') {
-                                    // 调用工具
+                                    // Call tool
                                     const toolName = payload.params?.name;
                                     const toolArgs = payload.params?.arguments;
                                     
-                                    log(`调用工具: ${toolName} 参数: ${JSON.stringify(toolArgs)}`, 'info');
+                                    log(`Call tool: ${toolName} args: ${JSON.stringify(toolArgs)}`, 'info');
                                     
-                                    // 执行工具
+                                    // Execute tool
                                     const result = executeMcpTool(toolName, toolArgs);
                                     
                                     const replyMessage = JSON.stringify({
@@ -1092,49 +1092,49 @@
                                         }
                                     });
 
-                                    log(`客户端上报: ${replyMessage}`, 'info');
+                                    log(`Client report: ${replyMessage}`, 'info');
                                     
                                     websocket.send(replyMessage);
                                 } else if(payload.method === 'initialize') {
-                                    log(`收到工具初始化请求: ${JSON.stringify(payload.params)}`, 'info');
-                                    // 目前仅记录日志
+                                    log(`Received tool initialization request: ${JSON.stringify(payload.params)}`, 'info');
+                                    // Currently only logging
                                 } else {
-                                    log(`未知的MCP方法: ${payload.method}`, 'warning');
+                                    log(`Unknown MCP method: ${payload.method}`, 'warning');
                                 }
                             } else {
-                                // 未知消息类型
-                                log(`未知消息类型: ${message.type}`, 'info');
+                                // Unknown message type
+                                log(`Unknown message type: ${message.type}`, 'info');
                                 addMessage(JSON.stringify(message, null, 2));
                             }
                         } else {
-                            // 处理二进制数据 - 兼容多种二进制格式
+                            // Handle binary data - compatible with multiple binary formats
                             handleBinaryMessage(event.data);
                         }
                     } catch (error) {
-                        log(`WebSocket消息处理错误: ${error.message}`, 'error');
-                        // 非JSON格式文本消息直接显示
+                        log(`WebSocket message processing error: ${error.message}`, 'error');
+                        // Display non-JSON format text messages directly
                         if (typeof event.data === 'string') {
                             addMessage(event.data);
                         }
                     }
                 };
 
-                connectionStatus.textContent = 'ws未连接';
+                connectionStatus.textContent = 'ws disconnected';
                 connectionStatus.style.color = 'orange';
             } catch (error) {
-                log(`连接错误: ${error.message}`, 'error');
-                connectionStatus.textContent = 'ws未连接';
+                log(`Connection error: ${error.message}`, 'error');
+                connectionStatus.textContent = 'ws disconnected';
             }
         }
 
-        // 发送hello握手消息
+        // Send hello handshake message
         async function sendHelloMessage() {
             if (!websocket || websocket.readyState !== WebSocket.OPEN) return;
 
             try {
                 const config = getConfig();
 
-                // 设置设备信息
+                // Set device information
                 const helloMessage = {
                     type: 'hello',
                     device_id: config.deviceId,
@@ -1169,19 +1169,19 @@
                                 resolve(true);
                             }
                         } catch (e) {
-                            // 忽略非JSON消息
+                            // Ignore non-JSON messages
                         }
                     };
 
                     websocket.addEventListener('message', onMessageHandler);
                 });
             } catch (error) {
-                log(`发送hello消息错误: ${error.message}`, 'error');
+                log(`Send hello message error: ${error.message}`, 'error');
                 return false;
             }
         }
 
-        // 断开WebSocket连接
+        // Disconnect WebSocket connection
         function disconnectFromServer() {
             if (!websocket) return;
 
@@ -1189,14 +1189,14 @@
             stopRecording();
         }
 
-        // 发送文本消息
+        // Send text message
         function sendTextMessage() {
             const message = messageInput.value.trim();
             if (message === '' || !websocket || websocket.readyState !== WebSocket.OPEN) return;
 
 
             try {
-                // 直接发送listen消息，不需要重复发送hello
+                // Directly send listen message, no need to repeat hello
                 const listenMessage = {
                     type: 'listen',
                     mode: 'manual',
@@ -1206,15 +1206,15 @@
 
                 websocket.send(JSON.stringify(listenMessage));
                 addMessage(message, true);
-                log(`发送文本消息: ${message}`, 'info');
+                log(`Send text message: ${message}`, 'info');
 
                 messageInput.value = '';
             } catch (error) {
-                log(`发送消息错误: ${error.message}`, 'error');
+                log(`Send message error: ${error.message}`, 'error');
             }
         }
 
-        // 生成随机MAC地址
+        // Generate random MAC address
         function generateRandomMac() {
             const hexDigits = '0123456789ABCDEF';
             let mac = '';
@@ -1227,11 +1227,11 @@
             return mac;
         }
 
-        // 初始化事件监听器
+        // Initialize event listeners
         function initEventListeners() {
             connectButton.addEventListener('click', connectToServer);
 
-            // 设备配置面板折叠/展开
+            // Device configuration panel fold/expand
             const toggleButton = document.getElementById('toggleConfig');
             const configPanel = document.getElementById('configPanel');
             const deviceMacInput = document.getElementById('deviceMac');
@@ -1248,20 +1248,20 @@
             deviceMacInput.value = savedMac;
             displayMac.textContent = savedMac;
 
-            // 更新显示的值
+            // Update displayed values
             function updateDisplayValues() {
                 const newMac = deviceMacInput.value;
                 displayMac.textContent = newMac;
                 displayClient.textContent = clientIdInput.value;
-                // 保存MAC地址到localStorage
+                // Save MAC address to localStorage
                 localStorage.setItem('deviceMac', newMac);
             }
 
-            // 监听输入变化
+            // Listen for input changes
             deviceMacInput.addEventListener('input', updateDisplayValues);
             clientIdInput.addEventListener('input', updateDisplayValues);
 
-            // 初始更新显示值
+            // Initialize display values
             updateDisplayValues();
 
             const savedOtaUrl = localStorage.getItem('otaUrl');
@@ -1269,22 +1269,22 @@
                 document.getElementById('otaUrl').value = savedOtaUrl;
             }
 
-            // 切换面板显示
+            // Toggle panel display
             toggleButton.addEventListener('click', () => {
                 const isExpanded = configPanel.classList.contains('expanded');
                 configPanel.classList.toggle('expanded');
-                toggleButton.textContent = isExpanded ? '编辑' : '收起';
+                toggleButton.textContent = isExpanded ? 'Edit' : 'Collapse';
             });
 
-            // 标签页切换
+            // Tab switching
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    // 移除所有标签页的active类
+                    // Remove active class from all tabs
                     tabs.forEach(t => t.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-                    // 添加当前标签页的active类
+                    // Add active class to current tab
                     tab.classList.add('active');
                     document.getElementById(`${tab.dataset.tab}Tab`).classList.add('active');
                 });
@@ -1306,7 +1306,7 @@
             window.addEventListener('resize', initVisualizer);
         }
 
-        // 帮助函数：ArrayBuffer转Base64
+        // Helper function: ArrayBuffer to Base64
         function arrayBufferToBase64(buffer) {
             let binary = '';
             const bytes = new Uint8Array(buffer);
@@ -1317,33 +1317,33 @@
             return window.btoa(binary);
         }
 
-        // Opus编码器
+        // Opus encoder
         let opusEncoder;
 
-        // 初始化应用
+        // Initialize application
         function initApp() {
             initVisualizer();
             initEventListeners();
 
-            // 检查libopus.js是否正确加载
+            // Check if libopus.js is loaded correctly
             checkOpusLoaded();
 
-            // 初始化Opus编码器
+            // Initialize Opus encoder
             opusEncoder = initOpusEncoder();
 
-            // 预加载Opus解码器
-            log('预加载Opus解码器...', 'info');
+            // Preload Opus decoder
+            log('Preloading Opus decoder...', 'info');
             initOpusDecoder().then(() => {
-                log('Opus解码器预加载成功', 'success');
+                log('Opus decoder preloaded successfully', 'success');
             }).catch(error => {
-                log(`Opus解码器预加载失败: ${error.message}，将在需要时重试`, 'warning');
+                log(`Opus decoder preload failed: ${error.message}, will retry when needed`, 'warning');
             });
             playBufferedAudio()
             startAudioBuffering()
 
         }
 
-        // PCM录音处理器代码 - 会被注入到AudioWorklet中
+        // PCM recording processor code - will be injected into AudioWorklet
         const audioProcessorCode = `
             class AudioRecorderProcessor extends AudioWorkletProcessor {
                 constructor() {
@@ -1354,7 +1354,7 @@
                     this.bufferIndex = 0;
                     this.isRecording = false;
 
-                    // 监听来自主线程的消息
+                    // Listen for messages from main thread
                     this.port.onmessage = (event) => {
                         if (event.data.command === 'start') {
                             this.isRecording = true;
@@ -1362,7 +1362,7 @@
                         } else if (event.data.command === 'stop') {
                             this.isRecording = false;
 
-                            // 发送剩余的缓冲区
+                            // Send remaining buffer
                             if (this.bufferIndex > 0) {
                                 const finalBuffer = this.buffer.slice(0, this.bufferIndex);
                                 this.port.postMessage({
@@ -1380,13 +1380,13 @@
                 process(inputs, outputs, parameters) {
                     if (!this.isRecording) return true;
 
-                    const input = inputs[0][0]; // 获取第一个输入通道
+                    const input = inputs[0][0]; // Get first input channel
                     if (!input) return true;
 
-                    // 将浮点采样转换为16位整数并存储
+                    // Convert float samples to 16-bit integers and store
                     for (let i = 0; i < input.length; i++) {
                         if (this.bufferIndex >= this.frameSize) {
-                            // 缓冲区已满，发送给主线程并重置
+                            // Buffer full, send to main thread and reset
                             this.port.postMessage({
                                 type: 'buffer',
                                 buffer: this.buffer.slice(0)
@@ -1394,7 +1394,7 @@
                             this.bufferIndex = 0;
                         }
 
-                        // 转换为16位整数 (-32768到32767)
+                        // Convert to 16-bit integer (-32768 to 32767)
                         this.buffer[this.bufferIndex++] = Math.max(-32768, Math.min(32767, Math.floor(input[i] * 32767)));
                     }
 
@@ -1660,7 +1660,7 @@
                     recordButton.textContent = `停止录音 ${recordingSeconds.toFixed(1)}秒`;
                 }, 100);
 
-                // 保存计时器，以便在停止时清除
+                // Save timer so it can be cleared when stopping
                 window.recordingTimer = recordingTimer;
 
                 recordButton.classList.add('recording');
@@ -1763,7 +1763,7 @@
                 // 创建Uint8Array用于处理
                 const opusData = new Uint8Array(arrayBuffer);
                 if (opusData.length > 0) {
-                    // 将数据添加到缓冲队列
+                    // Add data to buffer queue
                     queue.enqueue(opusData);
                 } else {
                     log('收到空音频数据帧，可能是结束标志', 'warning');
@@ -1790,10 +1790,10 @@
         }
 
         // ==========================================
-        // MCP 工具管理逻辑
+        // MCP tool management logic
         // ==========================================
 
-        // 默认工具数据
+        // Default tool data
         const defaultMcpTools = await fetch("default-mcp-tools.json").then(res => res.json());
 
         // 全局变量
@@ -1819,15 +1819,15 @@
             setupMcpEventListeners();
         }
 
-        // 渲染工具列表
+        // Render tool list
         function renderMcpTools() {
             const container = document.getElementById('mcpToolsContainer');
             const countSpan = document.getElementById('mcpToolsCount');
             
-            countSpan.textContent = `${mcpTools.length} 个工具`;
+            countSpan.textContent = `${mcpTools.length} tools`;
             
             if (mcpTools.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 30px; color: #999;">暂无工具，点击下方按钮添加新工具</div>';
+                container.innerHTML = '<div style="text-align: center; padding: 30px; color: #999;">No tools yet, click the button below to add a new tool</div>';
                 return;
             }
 
@@ -1847,14 +1847,14 @@
                                 </button>
                                 <button onclick="deleteMcpTool(${index})"
                                     style="padding: 4px 10px; border: none; border-radius: 4px; background-color: #f44336; color: white; cursor: pointer; font-size: 12px;">
-                                    🗑️ 删除
+                                    🗑️ Delete
                                 </button>
                             </div>
                         </div>
                         <div class="mcp-tool-description">${tool.description}</div>
                         <div class="mcp-tool-info">
                             <div class="mcp-tool-info-row">
-                                <span class="mcp-tool-info-label">参数数量:</span>
+                                <span class="mcp-tool-info-label">Parameter Count:</span>
                                 <span class="mcp-tool-info-value">${paramCount} 个 ${requiredCount > 0 ? `(${requiredCount} 个必填)` : ''}</span>
                             </div>
                             <div class="mcp-tool-info-row">
@@ -1867,12 +1867,12 @@
             }).join('');
         }
 
-        // 渲染参数列表
+        // Render parameter list
         function renderMcpProperties() {
             const container = document.getElementById('mcpPropertiesContainer');
             
             if (mcpProperties.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 20px; color: #999; font-size: 14px;">暂无参数，点击下方按钮添加参数</div>';
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: #999; font-size: 14px;">No parameters yet, click the button below to add parameters</div>';
                 return;
             }
 
@@ -1882,12 +1882,12 @@
                         <span class="mcp-property-name">${prop.name}</span>
                         <button type="button" onclick="deleteMcpProperty(${index})"
                             style="padding: 3px 8px; border: none; border-radius: 3px; background-color: #f44336; color: white; cursor: pointer; font-size: 11px;">
-                            删除
+                            Delete
                         </button>
                     </div>
                     <div class="mcp-property-row">
                         <div>
-                            <label class="mcp-small-label">参数名称 *</label>
+                            <label class="mcp-small-label">Parameter Name *</label>
                             <input type="text" class="mcp-small-input" value="${prop.name}" 
                                 onchange="updateMcpProperty(${index}, 'name', this.value)" required>
                         </div>
@@ -1918,20 +1918,20 @@
                     </div>
                     ` : ''}
                     <div class="mcp-property-row-full">
-                        <label class="mcp-small-label">参数描述</label>
+                        <label class="mcp-small-label">Parameter Description</label>
                         <input type="text" class="mcp-small-input" value="${prop.description || ''}" 
                             placeholder="可选" onchange="updateMcpProperty(${index}, 'description', this.value)">
                     </div>
                     <label class="mcp-checkbox-label">
                         <input type="checkbox" ${prop.required ? 'checked' : ''} 
                             onchange="updateMcpProperty(${index}, 'required', this.checked)">
-                        必填参数
+                        Required Parameter
                     </label>
                 </div>
             `).join('');
         }
 
-        // 添加参数
+        // Add parameter
         function addMcpProperty() {
             mcpProperties.push({
                 name: `param_${mcpProperties.length + 1}`,
@@ -1942,12 +1942,12 @@
             renderMcpProperties();
         }
 
-        // 更新参数
+        // Update parameter
         window.updateMcpProperty = function(index, field, value) {
             if (field === 'name') {
                 const isDuplicate = mcpProperties.some((p, i) => i !== index && p.name === value);
                 if (isDuplicate) {
-                    alert('参数名称已存在，请使用不同的名称');
+                    alert('Parameter name already exists, please use a different name');
                     renderMcpProperties();
                     return;
                 }
@@ -1962,7 +1962,7 @@
             }
         };
 
-        // 删除参数
+        // Delete parameter
         window.deleteMcpProperty = function(index) {
             mcpProperties.splice(index, 1);
             renderMcpProperties();
@@ -1982,7 +1982,7 @@
             toggleBtn.addEventListener('click', () => {
                 const isExpanded = panel.classList.contains('expanded');
                 panel.classList.toggle('expanded');
-                toggleBtn.textContent = isExpanded ? '展开' : '收起';
+                toggleBtn.textContent = isExpanded ? 'Expand' : 'Collapse';
             });
             
             addBtn.addEventListener('click', () => openMcpModal());
@@ -1997,11 +1997,11 @@
             form.addEventListener('submit', handleMcpSubmit);
         }
 
-        // 打开模态框
+        // Open modal
         function openMcpModal(index = null) {
             const isConnected = websocket && websocket.readyState === WebSocket.OPEN;
             if (isConnected) {
-                alert('WebSocket 已连接，无法编辑工具');
+                alert('WebSocket is connected, cannot edit tools');
                 return;
             }
             
@@ -2010,7 +2010,7 @@
             errorContainer.innerHTML = '';
             
             if (index !== null) {
-                document.getElementById('mcpModalTitle').textContent = '编辑工具';
+                document.getElementById('mcpModalTitle').textContent = 'Edit Tool';
                 const tool = mcpTools[index];
                 document.getElementById('mcpToolName').value = tool.name;
                 document.getElementById('mcpToolDescription').value = tool.description;
@@ -2136,7 +2136,7 @@
             errorContainer.innerHTML = `<div class="mcp-error">${message}</div>`;
         }
 
-        // 编辑工具
+        // Edit tool
         window.editMcpTool = function(index) {
             openMcpModal(index);
         };
