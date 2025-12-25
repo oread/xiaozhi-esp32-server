@@ -21,7 +21,7 @@ services:
       - PYTHONUNBUFFERED=1
     volumes:
       - ./data:/opt/xiaozhi-esp32-server/data
-      - ./models/SenseVoiceSmall/model.pt:/opt/xiaozhi-esp32-server/models/SenseVoiceSmall/model.pt
+      - ./models/SenseVoiceSmall:/opt/xiaozhi-esp32-server/models/SenseVoiceSmall
       - ./logs:/opt/xiaozhi-esp32-server/logs
     security_opt:
       - seccomp:unconfined
