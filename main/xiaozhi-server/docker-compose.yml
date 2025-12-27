@@ -20,3 +20,7 @@ services:
       - ./data:/opt/xiaozhi-esp32-server/data
       # 模型目录挂载
       - ./models/SenseVoiceSmall:/opt/xiaozhi-esp32-server/models/SenseVoiceSmall
+      # 挂载代码目录以使用更新后的Python文件 / Mount code directory to use updated Python files
+      - ./core:/opt/xiaozhi-esp32-server/core
+      - ./plugins_func:/opt/xiaozhi-esp32-server/plugins_func
+      - ./config:/opt/xiaozhi-esp32-server/config

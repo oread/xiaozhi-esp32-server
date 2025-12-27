@@ -91,7 +91,7 @@ class LLMProvider(LLMProviderBase):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in Ollama response generation: {e}")
-            yield "【Ollama服务响应异常】"
+            yield "Ollama service error"
 
     def response_with_functions(self, session_id, dialogue, functions=None):
         try:
@@ -172,4 +172,6 @@ class LLMProvider(LLMProviderBase):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in Ollama function call: {e}")
-            yield f"【Ollama服务响应异常: {str(e)}】", None
+            # Encode exception message safely to ASCII to prevent encoding errors in TTS
+            error_msg = str(e).encode('ascii', 'ignore').decode('ascii')
+            yield f"Ollama service error: {error_msg}", None

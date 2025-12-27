@@ -61,7 +61,7 @@ class LLMProvider(LLMProviderBase):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in Xinference response generation: {e}")
-            yield "【Xinference服务响应异常】"
+            yield "Xinference service error"
 
     def response_with_functions(self, session_id, dialogue, functions=None):
         try:
@@ -92,7 +92,9 @@ class LLMProvider(LLMProviderBase):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in Xinference function call: {e}")
+            # Encode exception message safely to ASCII to prevent encoding errors in TTS
+            error_msg = str(e).encode('ascii', 'ignore').decode('ascii')
             yield {
                 "type": "content",
-                "content": f"【Xinference服务响应异常: {str(e)}】",
+                "content": f"Xinference service error: {error_msg}",
             }

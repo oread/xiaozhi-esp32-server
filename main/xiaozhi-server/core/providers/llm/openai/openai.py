@@ -100,15 +100,23 @@ class LLMProvider(LLMProviderBase):
                     yield chunk.choices[0].delta.content, chunk.choices[
                         0
                     ].delta.tool_calls
-                # 存在 CompletionUsage 消息时，生成 Token 消耗 log
+                # Exists CompletionUsage message, generate Token consumption log
                 elif isinstance(getattr(chunk, "usage", None), CompletionUsage):
                     usage_info = getattr(chunk, "usage", None)
                     logger.bind(tag=TAG).info(
-                        f"Token 消耗：输入 {getattr(usage_info, 'prompt_tokens', '未知')}，"
-                        f"输出 {getattr(usage_info, 'completion_tokens', '未知')}，"
-                        f"共计 {getattr(usage_info, 'total_tokens', '未知')}"
+                        f"Token usage: Input {getattr(usage_info, 'prompt_tokens', 'unknown')}, "
+                        f"Output {getattr(usage_info, 'completion_tokens', 'unknown')}, "
+                        f"Total {getattr(usage_info, 'total_tokens', 'unknown')}"
                     )
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in function call streaming: {e}")
-            yield f"【OpenAI服务响应异常: {e}】", None
+            # Safely extract error message, using repr to avoid encoding issues
+            try:
+                error_repr = repr(e)
+                # Extract just the error type and basic message
+                error_type = type(e).__name__
+                error_msg = f"{error_type}"
+            except:
+                error_msg = "Service error"
+            yield f"OpenAI service error: {error_msg}", None

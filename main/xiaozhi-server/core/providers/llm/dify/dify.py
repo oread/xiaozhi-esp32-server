@@ -76,7 +76,7 @@ class LLMProvider(LLMProviderBase):
                                 if event["data"]["status"] == "succeeded":
                                     yield event["data"]["outputs"]["answer"]
                                 else:
-                                    yield "【服务响应异常】"
+                                    yield "Service error"
                 elif self.mode == "completion-messages":
                     for line in r.iter_lines():
                         if line.startswith(b"data: "):
@@ -89,7 +89,7 @@ class LLMProvider(LLMProviderBase):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in response generation: {e}")
-            yield "【服务响应异常】"
+            yield "Service error"
 
     def response_with_functions(self, session_id, dialogue, functions=None):
         if len(dialogue) == 2 and functions is not None and len(functions) > 0:

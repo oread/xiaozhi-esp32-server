@@ -24,7 +24,7 @@ class LLMProviderBase(ABC):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in Ollama response generation: {e}")
-            return "【LLM服务响应异常】"
+            return "LLM service error"
     
     def response_with_functions(self, session_id, dialogue, functions=None):
         """

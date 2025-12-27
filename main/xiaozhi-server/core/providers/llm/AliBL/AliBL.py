@@ -84,7 +84,7 @@ class LLMProvider(LLMProviderBase):
                     logger.bind(tag=TAG).error(
                         f"code={responses.status_code}, message={responses.message}, 请参考文档：https://help.aliyun.com/zh/model-studio/developer-reference/error-code"
                     )
-                    yield "【阿里百练API服务响应异常】"
+                    yield "AlibabaCloud Bailian API service error"
                 else:
                     full_text = getattr(getattr(responses, "output", None), "text", "")
                     logger.bind(tag=TAG).info(
@@ -97,7 +97,7 @@ class LLMProvider(LLMProviderBase):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"【阿里百练API服务】响应异常: {e}")
-            yield "【LLM服务响应异常】"
+            yield "LLM service error"
 
     def response_with_functions(self, session_id, dialogue, functions=None):
         # 阿里百练当前未支持原生的 function call。为保持兼容，这里回退到普通文本流式输出。

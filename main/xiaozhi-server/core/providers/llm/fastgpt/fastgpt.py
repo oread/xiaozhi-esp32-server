@@ -65,9 +65,9 @@ class LLMProvider(LLMProviderBase):
 
         except Exception as e:
             logger.bind(tag=TAG).error(f"Error in response generation: {e}")
-            yield "【服务响应异常】"
+            yield "Service error"
 
     def response_with_functions(self, session_id, dialogue, functions=None):
         logger.bind(tag=TAG).error(
-            f"fastgpt暂未实现完整的工具调用（function call），建议使用其他意图识别"
+            "FastGPT has not fully implemented tool calling (function call). Please use other intent recognition methods."
         )
