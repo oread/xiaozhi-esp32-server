@@ -90,7 +90,7 @@ Your xiaozhi-esp32-server with RAG support has been deployed successfully!
    - Or switch to FunASR if you have the model
 
 4. Configure **TTS** (Text-to-Speech):
-   - OpenAITTS with your API key: `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`
+   - OpenAITTS with your API key: `sk-51b4487a5a4f4b369f7b1f2d56e30ce4`
    - Or use LinkeraiTTS (free)
 
 5. Configure **VLLM** (Vision Model) - Optional:
